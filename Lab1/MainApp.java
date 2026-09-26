@@ -1,9 +1,6 @@
 package Lab1; 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 public class MainApp extends JFrame {
     private String displayedText = "Select an action via the 'Work' or 'Work2' menu";
@@ -14,7 +11,6 @@ public class MainApp extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        
         JMenuBar menuBar = new JMenuBar();
         JMenu menuFile = new JMenu("File");
         JMenuItem itemExit = new JMenuItem("Exit");
@@ -22,33 +18,13 @@ public class MainApp extends JFrame {
         menuFile.add(itemExit);
 
         JMenu menuWork1 = new JMenu("Work");
-        JMenuItem itemWork1 = new JMenuItem("Execute Work 1");
-        itemWork1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Work1Dialog dialog = new Work1Dialog(MainApp.this);
-                dialog.setVisible(true);
-                if (dialog.isConfirmed()) {
-                    displayedText = "Selected group from the list: " + dialog.getSelectedValue();
-                    repaint();
-                }
-            }
-        });
+        JMenuItem itemWork1 = new JMenuItem("Option 1 (Slider)");
+        itemWork1.addActionListener(e -> openWork1Dialog());
         menuWork1.add(itemWork1);
 
         JMenu menuWork2 = new JMenu("Work2");
-        JMenuItem itemWork2 = new JMenuItem("Execute Work 2");
-        itemWork2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Work2Dialog dialog = new Work2Dialog(MainApp.this);
-                dialog.setVisible(true);
-                if (dialog.isConfirmed()) {
-                    displayedText = "Successfully completed the chain of two dialog windows!";
-                    repaint();
-                }
-            }
-        });
+        JMenuItem itemWork2 = new JMenuItem("Option 2 (Dialog Chain)");
+        itemWork2.addActionListener(e -> openWork2DialogChain());
         menuWork2.add(itemWork2);
 
         menuBar.add(menuFile);
@@ -67,6 +43,25 @@ public class MainApp extends JFrame {
         add(panel);
     }
 
+    private void openWork1Dialog() {
+        Work1Dialog dialog = new Work1Dialog(this);
+        dialog.setVisible(true);
+        if (dialog.isConfirmed()) {
+            int value = dialog.getSelectedValue();
+            displayedText = "Selected number from slider: " + value;
+            repaint();
+        }
+    }
+
+    private void openWork2DialogChain() {
+        Work2FirstDialog firstDialog = new Work2FirstDialog(this);
+        firstDialog.setVisible(true);
+    }
+
+    public void setDisplayedText(String text) {
+        this.displayedText = text;
+        repaint();
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

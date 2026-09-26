@@ -3,33 +3,34 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Work1Dialog extends JDialog {
-    private JList<String> listView;
+    private JSlider slider;
     private boolean confirmed = false;
-    private String selectedValue = "";
+
 
     public Work1Dialog(JFrame parent) {
-        super(parent, "Select Faculty Group (ListBox)", true);
-        setSize(350, 250);
+        super(parent, "Slider Dialog", true);
+        setSize(350, 180);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        String[] groups = {"IM-51", "IM-52", "IM-53 (Your Group)", "IM-54", "IK-51", "IK-52"};
-        listView = new JList<>(groups);
-        listView.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        add(new JScrollPane(listView), BorderLayout.CENTER);
+        slider = new JSlider(1, 100, 50);
+        slider.setMajorTickSpacing(20);
+        slider.setMinorTickSpacing(5);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.setBorder(BorderFactory.createTitledBorder("Select a number (1 - 100)"));
+        centerPanel.add(slider, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
-        JButton btnOk = new JButton("Yes");
+        JButton btnYes = new JButton("Yes");
         JButton btnCancel = new JButton("Cancel");
 
-        btnOk.addActionListener(e -> {
-            if (listView.getSelectedValue() != null) {
-                selectedValue = listView.getSelectedValue();
-                confirmed = true;
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select an item from the list!");
-            }
+        btnYes.addActionListener(e -> {
+            confirmed = true;
+            dispose();
         });
 
         btnCancel.addActionListener(e -> {
@@ -37,7 +38,7 @@ public class Work1Dialog extends JDialog {
             dispose();
         });
 
-        buttonPanel.add(btnOk);
+        buttonPanel.add(btnYes);
         buttonPanel.add(btnCancel);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -46,7 +47,7 @@ public class Work1Dialog extends JDialog {
         return confirmed;
     }
 
-    public String getSelectedValue() {
-        return selectedValue;
+    public int getSelectedValue() {
+        return slider.getValue();
     }
 }
