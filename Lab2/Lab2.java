@@ -12,16 +12,16 @@ public class Lab2 extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Створення меню (порядок: Файл, Об'єкти, Довідка)[cite: 41, 108]
+  
         JMenuBar menuBar = new JMenuBar();
         
-        // Меню "Файл"
+        
         JMenu menuFile = new JMenu("Файл");
         JMenuItem itemExit = new JMenuItem("Вихід");
         itemExit.addActionListener(e -> System.exit(0));
         menuFile.add(itemExit);
 
-        // Меню "Об'єкти" (українською мовою згідно з вимогами)[cite: 41, 108]
+        
         JMenu menuObjects = new JMenu("Об'єкти");
         JMenuItem itemPoint = new JMenuItem("Крапка");
         JMenuItem itemLine = new JMenuItem("Лінія");
@@ -50,7 +50,7 @@ public class Lab2 extends JFrame {
         menuObjects.add(itemRect);
         menuObjects.add(itemEllipse);
 
-        // Меню "Довідка"
+
         JMenu menuHelp = new JMenu("Довідка");
         JMenuItem itemAbout = new JMenuItem("Про програму");
         itemAbout.addActionListener(e -> JOptionPane.showMessageDialog(this, "Lab 2 OOP. Student variant #9"));
@@ -61,7 +61,7 @@ public class Lab2 extends JFrame {
         menuBar.add(menuHelp);
         setJMenuBar(menuBar);
 
-        // Полотно для малювання
+        
         DrawingPanel canvas = new DrawingPanel(editor);
         add(canvas);
     }

@@ -2,7 +2,7 @@ package Lab2;
 import java.awt.*;
 
 public class ShapeEditor {
-    // Динамічний масив вказівників на 109 об'єктів (N = 9 + 100 = 109, 9 mod 3 = 0)[cite: 52, 106, 108]
+    
     private Shape[] shapes = new Shape[109];
     private int count = 0;
     private Editor currentEditor = null;

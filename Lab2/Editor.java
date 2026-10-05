@@ -23,7 +23,7 @@ abstract class Editor {
     public void drawRubber(Graphics g) {
         if (!active) return;
         Graphics2D g2d = (Graphics2D) g;
-        // Суцільна червона лінія для гумового сліду (9 mod 4 = 1)[cite: 52, 106]
+        
         g2d.setColor(Color.RED);
         g2d.setStroke(new BasicStroke(1f));
         drawShapePreview(g2d);
@@ -61,7 +61,7 @@ class LineEditor extends Editor {
 class RectEditor extends Editor {
     @Override
     public void onMouseDown(int x, int y) {
-        // Ввід від центру до кута (9 mod 2 = 1)[cite: 53, 106]
+    
         super.onMouseDown(x, y);
     }
 
