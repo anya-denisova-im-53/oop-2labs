@@ -1,4 +1,5 @@
 package Lab3;
+
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -6,13 +7,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class DrawingCanvas extends JPanel {
-    public static final int CAPACITY = 110;
-    private GraphicalObject[] objectArray = new GraphicalObject[CAPACITY];
-    private int elementCounter = 0;
-    private int activeToolType = 0; 
-
-    private int currentX1, currentY1, currentX2, currentY2;
-    private boolean isProcessDrawing = false;
+    public static final int CAPACITY = 110; 
+    private Shape[] shapes = new Shape[CAPACITY];
+    private int shapeCount = 0;
+    
+    private int activeToolType = 0;
+    private int startX, startY, currentX, currentY;
+    private boolean isDrawing = false;
 
     public DrawingCanvas() {
         setBackground(Color.WHITE);
@@ -20,51 +21,51 @@ public class DrawingCanvas extends JPanel {
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                currentX1 = currentX2 = e.getX();
-                currentY1 = currentY2 = e.getY();
-                isProcessDrawing = true;
+                startX = currentX = e.getX();
+                startY = currentY = e.getY();
+                isDrawing = true;
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (isProcessDrawing) {
-                    currentX2 = e.getX();
-                    currentY2 = e.getY();
-                    repaint(); 
+                if (isDrawing) {
+                    currentX = e.getX();
+                    currentY = e.getY();
+                    repaint();
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!isProcessDrawing) return;
-                isProcessDrawing = false;
+                if (!isDrawing) return;
+                isDrawing = false;
 
-                if (elementCounter >= CAPACITY) return;
+                if (shapeCount >= CAPACITY) return;
 
-                GraphicalObject newObject = null;
+                Shape newShape = null;
                 switch (activeToolType) {
                     case 0: 
-                        newObject = new DotElement();
-                        newObject.setCoordinates(currentX2, currentY2, currentX2, currentY2);
+                        newShape = new PointShape();
+                        newShape.set(currentX, currentY, currentX, currentY);
                         break;
-                    case 1:
-                        newObject = new SegmentElement();
-                        newObject.setCoordinates(currentX1, currentY1, currentX2, currentY2);
+                    case 1: 
+                        newShape = new LineShape();
+                        newShape.set(startX, startY, currentX, currentY);
                         break;
-                    case 2:
-                        newObject = new BoxElement();
-                        newObject.setCoordinates(currentX1, currentY1, currentX2, currentY2);
+                    case 2: 
+                        newShape = new RectShape();
+                        int w = Math.abs(currentX - startX);
+                        int h = Math.abs(currentY - startY);
+                        newShape.set(startX - w, startY - h, startX + w, startY + h);
                         break;
                     case 3: 
-                        newObject = new OvalElement();
-                        int rx = Math.abs(currentX2 - currentX1);
-                        int ry = Math.abs(currentY2 - currentY1);
-                        newObject.setCoordinates(currentX1 - rx, currentY1 - ry, currentX1 + rx, currentY1 + ry);
+                        newShape = new EllipseShape();
+                        newShape.set(startX, startY, currentX, currentY);
                         break;
                 }
 
-                if (newObject != null) {
-                    objectArray[elementCounter++] = newObject;
+                if (newShape != null) {
+                    shapes[shapeCount++] = newShape;
                 }
                 repaint();
             }
@@ -85,18 +86,34 @@ public class DrawingCanvas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
 
-
-        for (int i = 0; i < elementCounter; i++) {
-            if (objectArray[i] != null) {
-                objectArray[i].draw(g);
+        for (int i = 0; i < shapeCount; i++) {
+            if (shapes[i] != null) {
+                shapes[i].draw(g);
             }
         }
 
-    
-        if (isProcessDrawing) {
+
+        if (isDrawing) {
             g.setColor(Color.BLUE);
-            g.drawLine(currentX1, currentY1, currentX2, currentY2);
+            switch (activeToolType) {
+                case 1: 
+                    g.drawLine(startX, startY, currentX, currentY);
+                    break;
+                case 2: 
+                    int w = Math.abs(currentX - startX);
+                    int h = Math.abs(currentY - startY);
+                    g.drawRect(startX - w, startY - h, w * 2, h * 2);
+                    break;
+                case 3:
+                    int rx = Math.min(startX, currentX);
+                    int ry = Math.min(startY, currentY);
+                    int rw = Math.abs(currentX - startX);
+                    int rh = Math.abs(currentY - startY);
+                    g.drawOval(rx, ry, rw, rh);
+                    break;
+            }
         }
     }
 }

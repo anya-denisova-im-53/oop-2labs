@@ -1,7 +1,7 @@
 package Lab3;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ApplicationWindow extends JFrame {
@@ -10,7 +10,7 @@ public class ApplicationWindow extends JFrame {
     private JButton btnDot, btnSegment, btnBox, btnOval;
 
     public ApplicationWindow() {
-        setTitle("Лабораторна робота №3 - Варіант 10 (Java)");
+        setTitle("Лабораторна робота №3 - Варіант 10 (Студент №9)");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -18,18 +18,17 @@ public class ApplicationWindow extends JFrame {
         canvasPanel = new DrawingCanvas();
         add(canvasPanel, BorderLayout.CENTER);
 
-
         JMenuBar mainMenuBar = new JMenuBar();
         
+    
         JMenu menuFile = new JMenu("Файл");
         JMenuItem itemExit = new JMenuItem("Вихід");
         itemExit.addActionListener(e -> System.exit(0));
         menuFile.add(itemExit);
 
-
+        
         JMenu menuObjects = new JMenu("Об'єкти");
         ButtonGroup toolsGroup = new ButtonGroup();
-
         menuDot = new JRadioButtonMenuItem("Крапка", true);
         menuSegment = new JRadioButtonMenuItem("Лінія");
         menuBox = new JRadioButtonMenuItem("Прямокутник");
@@ -51,26 +50,26 @@ public class ApplicationWindow extends JFrame {
         itemAbout.addActionListener(e -> showAboutDialog());
         menuHelp.add(itemAbout);
 
-  
         mainMenuBar.add(menuFile);
         mainMenuBar.add(menuObjects);
         mainMenuBar.add(menuHelp);
         setJMenuBar(mainMenuBar);
 
+        
         JToolBar mainToolBar = new JToolBar();
         mainToolBar.setFloatable(false);
 
-        btnDot = new JButton("Крапка");
+        btnDot = new JButton("• Крапка");
         btnDot.setToolTipText("Малювання точкових об'єктів");
 
-        btnSegment = new JButton("Лінія");
+        btnSegment = new JButton("╱ Лінія");
         btnSegment.setToolTipText("Малювання відрізків ліній");
 
-        btnBox = new JButton("Прямокутник");
-        btnBox.setToolTipText("Малювання прямокутників");
+        btnBox = new JButton("□ Прямокутник");
+        btnBox.setToolTipText("Малювання прямокутників (від центру)");
 
-        btnOval = new JButton("Еліпс");
-        btnOval.setToolTipText("Малювання еліпсів");
+        btnOval = new JButton("◯ Еліпс");
+        btnOval.setToolTipText("Малювання еліпсів (по двох кутах)");
 
         mainToolBar.add(btnDot);
         mainToolBar.add(btnSegment);
@@ -78,7 +77,6 @@ public class ApplicationWindow extends JFrame {
         mainToolBar.add(btnOval);
 
         add(mainToolBar, BorderLayout.NORTH);
-
 
         ActionListener dotAction = e -> changeTool(0);
         ActionListener segmentAction = e -> changeTool(1);
@@ -100,24 +98,32 @@ public class ApplicationWindow extends JFrame {
 
     private void changeTool(int toolIndex) {
         canvasPanel.setActiveToolType(toolIndex);
-
-   
+        
         menuDot.setSelected(toolIndex == 0);
         menuSegment.setSelected(toolIndex == 1);
         menuBox.setSelected(toolIndex == 2);
         menuOval.setSelected(toolIndex == 3);
+
+       
+        String toolName = "";
+        switch (toolIndex) {
+            case 0: toolName = "Крапка"; break;
+            case 1: toolName = "Лінія"; break;
+            case 2: toolName = "Прямокутник"; break;
+            case 3: toolName = "Еліпс"; break;
+        }
+        setTitle("Лабораторна робота №3 | Режим вводу: " + toolName);
     }
 
     private void showAboutDialog() {
         String infoMessage = "Лабораторна робота №3\n" +
-                             "Тема: Розробка графічного інтерфейсу користувача\n" +
+                             "Тема: Розробка інтерфейсу користувача на C++ (реалізація Java Swing)\n" +
                              "Варіант: 10 (Студент №9)\n\n" +
                              "Особливості варіанта:\n" +
                              "• Статичний масив: 110 об'єктів\n" +
-                             "• Слід малювання: синя суцільна лінія\n" +
-                             "• Прямокутник: біле заповнення\n" +
-                             "• Еліпс: без заповнення";
-
+                             "• Гумовий слід: синій контур фігури в реальному часі\n" +
+                             "• Прямокутник: від центру, біле заповнення\n" +
+                             "• Еліпс: по двох кутах, без заповнення";
         JOptionPane.showMessageDialog(this, infoMessage, "Про програму / Довідка", JOptionPane.INFORMATION_MESSAGE);
     }
 }
