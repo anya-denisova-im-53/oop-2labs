@@ -23,8 +23,10 @@ class ObjectManager {
         this.tableWindow = tableWindow;
     }
 
-    public void addFigure(GeometricFigure fig, boolean saveToFile) {
+   public void addFigure(GeometricFigure fig, boolean saveToFile) {
         if (storage.size() < 109) { 
+            storage.add(fig); // <--- ОСЬ ЦЕЙ РЯДОК БУВ ПРОПУЩЕНИЙ! Обов'язково додайте його сюди.
+            
             if (saveToFile) {
                 appendToFile(fig);
             }

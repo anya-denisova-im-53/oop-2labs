@@ -77,8 +77,8 @@ public class DrawingCanvasApp extends JFrame implements ObjectSelectionListener 
         canvas = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                manager.renderAll(g);
+              super.paintComponent(g);
+              manager.renderAll(g); // <--- ЦЕЙ РЯДОК МАЄ БУТИ ОБОВ'ЯЗКОВО!
 
                 if (isDrawing) {
                     g.setColor(Color.RED);
@@ -141,15 +141,14 @@ public class DrawingCanvasApp extends JFrame implements ObjectSelectionListener 
             }
         });
 
-        canvas.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                currentX = e.getX();
-                currentY = e.getY();
-                canvas.repaint();
-            }
-        });
-
+      canvas.addMouseMotionListener(new MouseMotionAdapter() {
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        currentX = e.getX();
+        currentY = e.getY();
+        canvas.repaint(); 
+    }
+});
         add(canvas, BorderLayout.CENTER);
     }
 
