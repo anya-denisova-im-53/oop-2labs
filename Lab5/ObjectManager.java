@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 class ObjectManager {
-    // Singleton Меєрса
+    
     private static class Holder {
         private static final ObjectManager INSTANCE = new ObjectManager();
     }
@@ -24,8 +24,7 @@ class ObjectManager {
     }
 
     public void addFigure(GeometricFigure fig, boolean saveToFile) {
-        if (storage.size() < 109) { // N = 9 + 100 = 109
-            storage.add(fig);
+        if (storage.size() < 109) { 
             if (saveToFile) {
                 appendToFile(fig);
             }
