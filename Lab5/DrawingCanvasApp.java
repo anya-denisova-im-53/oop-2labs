@@ -78,7 +78,7 @@ public class DrawingCanvasApp extends JFrame implements ObjectSelectionListener 
             @Override
             protected void paintComponent(Graphics g) {
               super.paintComponent(g);
-              manager.renderAll(g); // <--- ЦЕЙ РЯДОК МАЄ БУТИ ОБОВ'ЯЗКОВО!
+              manager.renderAll(g);
 
                 if (isDrawing) {
                     g.setColor(Color.RED);
