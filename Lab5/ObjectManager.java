@@ -25,7 +25,7 @@ class ObjectManager {
 
    public void addFigure(GeometricFigure fig, boolean saveToFile) {
         if (storage.size() < 109) { 
-            storage.add(fig); // <--- ОСЬ ЦЕЙ РЯДОК БУВ ПРОПУЩЕНИЙ! Обов'язково додайте його сюди.
+            storage.add(fig); 
             
             if (saveToFile) {
                 appendToFile(fig);
