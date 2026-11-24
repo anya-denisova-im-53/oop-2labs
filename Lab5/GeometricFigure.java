@@ -67,7 +67,7 @@ class RectangleFigure extends GeometricFigure {
 class EllipseFigure extends GeometricFigure {
     @Override
     public void draw(Graphics g) {
-        // Варіант 9: по 2 протилежних кутах з блакитним заповненням
+        
         int x = Math.min(x1, x2);
         int y = Math.min(y1, y2);
         int w = Math.abs(x2 - x1);
